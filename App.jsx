@@ -14,7 +14,7 @@ export const App = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setIsLoggedIn("Home");
+        setIsLoggedIn("HomeTabs");
       } else {
         setIsLoggedIn("Login");
       }
