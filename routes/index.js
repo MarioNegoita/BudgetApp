@@ -14,6 +14,7 @@ import {
   RegisterPage,
 } from "../src/pages/auth/index";
 import { HomePage } from "../src/pages/index";
+import IndexTabs from "./indexTabs";
 
 const Stack = createStackNavigator();
 
@@ -31,7 +32,7 @@ const AppRouter = ({ page }) => {
         {page === "Login" ? (
           <Stack.Screen name="Login" component={LoginPage} />
         ) : (
-          <Stack.Screen name="Home" component={HomePage} />
+          <Stack.Screen name="HomeTabs" component={IndexTabs} />
         )}
         <Stack.Screen name="Register" component={RegisterPage} />
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordPage} />
