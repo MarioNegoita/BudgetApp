@@ -1,15 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, HStack, Icon, Text } from "native-base";
 import { TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModalAcc from "./modalAcc";
+import {
+  signOut,
+  auth,
+  onSnapshot,
+  query,
+  db,
+  collection,
+  orderBy,
+} from "../../../config/firebase-key-config";
+import AccountBox from "./accountBox";
 
-export const Balance = () => {
+export const Balance = ({ name, sum }) => {
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
     setShowModal(false);
   };
+
+  const [accounts, setAccounts] = useState();
+  useEffect(() => {
+    const q = query(
+      collection(db, `users/${auth.currentUser.uid}/accounts`),
+      orderBy("sum", "desc")
+    );
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      setAccounts(
+        querySnapshot.docs.map((doc) => ({
+          sum: doc.data().sum,
+          name: doc.data().name,
+        }))
+      );
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <>
       <ModalAcc showModal={showModal} close={closeModal} />
@@ -17,7 +47,6 @@ export const Balance = () => {
       <Box
         width="100%"
         backgroundColor="primary1.500"
-        marginY={3}
         padding="2"
         borderBottomColor="white"
         borderBottomWidth="1"
@@ -26,32 +55,28 @@ export const Balance = () => {
           Balance
         </Text>
 
-        <HStack alignItems={"center"} justifyContent="space-between" my="3">
-          <Box
-            backgroundColor="orange.600"
-            borderRadius="lg"
-            padding={2}
-            paddingRight="10"
-            minWidth={"45%"}
-          >
-            <Text fontSize="15" color="white">
-              Cash
-            </Text>
-
-            <Text fontSize="15" color="white">
-              5000 ron
-            </Text>
-          </Box>
-
+        <HStack
+          alignItems={"center"}
+          justifyContent={"space-evenly"}
+          flexWrap="wrap"
+          my="3"
+        >
+          {accounts.map((account, index) => {
+            return (
+              <AccountBox key={index} name={account.name} sum={account.sum} />
+            );
+          })}
           <TouchableOpacity onPress={() => setShowModal(true)}>
             <HStack
               borderColor="primary3.500"
               borderWidth="2"
               borderRadius="lg"
-              padding="4"
+              paddingY="4"
+              paddingX="2"
               alignItems="center"
+              justifyContent="center"
             >
-              <Text fontSize="15" color="white">
+              <Text fontSize="15" color="white" ml="2">
                 Add an account
               </Text>
 

@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Input, Button, Text } from "native-base";
 import { TouchableWithoutFeedback } from "react-native";
 import { Keyboard } from "react-native";
+import { setDoc, doc, db, auth } from "../../../config/firebase-key-config";
 
 const ModalAcc = ({ showModal, close = () => {} }) => {
+  const [name, setName] = useState();
+  const [sum, setSum] = useState();
+
+  async function handleSaveAcc() {
+    const unsubscribe = await setDoc(
+      doc(db, "users", auth.currentUser.uid, "accounts", name),
+      {
+        sum: sum,
+        name: name,
+      }
+    ).then(close);
+    return unsubscribe;
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Modal isOpen={showModal}>
@@ -29,6 +44,9 @@ const ModalAcc = ({ showModal, close = () => {} }) => {
               _focus={{ borderColor: "white" }}
               color="white"
               fontSize="15"
+              onChangeText={(value) => {
+                setName(value);
+              }}
             />
 
             <Text fontSize="15" color="white">
@@ -43,6 +61,9 @@ const ModalAcc = ({ showModal, close = () => {} }) => {
               _focus={{ borderColor: "white" }}
               fontSize="15"
               color="white"
+              onChangeText={(value) => {
+                setSum(value);
+              }}
             />
           </Modal.Body>
 
@@ -54,7 +75,7 @@ const ModalAcc = ({ showModal, close = () => {} }) => {
                 </Text>
               </Button>
 
-              <Button backgroundColor="primary3.500" onPress={close}>
+              <Button backgroundColor="primary3.500" onPress={handleSaveAcc}>
                 <Text fontSize="15" color="black">
                   Save
                 </Text>
