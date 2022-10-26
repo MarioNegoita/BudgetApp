@@ -3,7 +3,7 @@ import { HStack, Box, Icon, Text, Button } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 
-export const Transaction = ({ type, sum, isRecieved }) => {
+export const Transaction = ({ type, sum, isIncome }) => {
   const [shown, setShown] = useState("details");
 
   const icon = {
@@ -14,6 +14,7 @@ export const Transaction = ({ type, sum, isRecieved }) => {
     Taxes: "briefcase",
     Food: "fast-food",
     Drinks: "cafe",
+    Income: "md-trending-up-sharp",
   };
 
   if (shown == "details") {
@@ -29,8 +30,13 @@ export const Transaction = ({ type, sum, isRecieved }) => {
           borderBottomColor="muted.500"
           borderBottomWidth="2"
         >
-          <HStack alignItems="center" marginLeft="2">
-            <Box backgroundColor="orange.600" padding="2" borderRadius="lg">
+          <HStack alignItems="center">
+            <Box
+              backgroundColor="orange.600"
+              ml="1"
+              padding="2"
+              borderRadius="lg"
+            >
               <Icon
                 size="6"
                 color="white"
@@ -42,7 +48,7 @@ export const Transaction = ({ type, sum, isRecieved }) => {
             </Text>
           </HStack>
 
-          {isRecieved == "Spent" ? (
+          {isIncome == "Spent" ? (
             <Text
               fontSize="18"
               fontWeight="bold"

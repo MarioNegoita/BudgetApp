@@ -5,7 +5,6 @@ import { Ionicons } from "@expo/vector-icons";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModalAcc from "./modalAcc";
 import {
-  signOut,
   auth,
   onSnapshot,
   query,

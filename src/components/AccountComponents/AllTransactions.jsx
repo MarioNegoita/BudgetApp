@@ -26,7 +26,7 @@ export const AllTransactions = () => {
           type: doc.data().type,
           sum: doc.data().sum,
           date: doc.data().date,
-          isRecieved: doc.data().isRecieved,
+          isIncome: doc.data().isIncome,
         }))
       );
     });
@@ -50,7 +50,7 @@ export const AllTransactions = () => {
             key={index}
             type={transaction.type}
             sum={transaction.sum}
-            isRecieved={transaction.isRecieved}
+            isIncome={transaction.isIncome}
           />
         );
       })}

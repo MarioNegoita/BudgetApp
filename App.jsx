@@ -25,8 +25,7 @@ export const App = () => {
 
   const initialState = {
     accountsData: {
-      name: null,
-      sum: null,
+      accountsList: null,
     },
   };
 

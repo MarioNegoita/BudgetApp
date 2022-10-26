@@ -1,18 +1,5 @@
 import React, { useState } from "react";
-import {
-  Modal,
-  Input,
-  Button,
-  Text,
-  Center,
-  FormControl,
-  Select,
-  CheckIcon,
-  WarningOutlineIcon,
-  HStack,
-  InputGroup,
-  InputRightAddon,
-} from "native-base";
+import { Modal, Input, Button, Text, Select } from "native-base";
 import { TouchableWithoutFeedback } from "react-native";
 import { Keyboard } from "react-native";
 import {
@@ -22,14 +9,14 @@ import {
   db,
   auth,
   collection,
-  increment,
+  getDoc,
 } from "../../../config/firebase-key-config";
 import { useGlobal } from "../../../state";
 
 export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
   const [transactionType, setTransactionType] = useState("");
   const [sum, setSum] = useState("");
-  const [isRecieved, setIsRecieved] = useState("");
+  const [isIncome, setIsIncome] = useState("");
   const [whatAcc, setWhatAcc] = useState("");
   const [{ accountsData }] = useGlobal();
 
@@ -37,23 +24,23 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
     setTransactionType("");
     setSum("");
     setWhatAcc("");
-    setIsRecieved("");
+    setIsIncome("");
     close();
   };
 
   async function handleOnAdd() {
-    if (transactionType && sum && whatAcc && isRecieved) {
-      const unsubscribe = await addDoc(
-        collection(db, "users", auth.currentUser.uid, "transactions"),
-        {
-          type: transactionType,
-          sum: sum,
-          date: new Date(),
-          isRecieved: isRecieved,
-        }
-      );
+    if (sum && whatAcc && isIncome) {
+      if (isIncome == "Spent") {
+        const unsubscribe = await addDoc(
+          collection(db, "users", auth.currentUser.uid, "transactions"),
+          {
+            type: transactionType,
+            sum: sum,
+            date: new Date(),
+            isIncome: isIncome,
+          }
+        );
 
-      if (isRecieved == "Spent") {
         const docRef = doc(
           db,
           "users",
@@ -61,12 +48,24 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
           "accounts",
           whatAcc
         );
+        const docSnap = await getDoc(docRef);
         await updateDoc(docRef, {
-          sum: increment(-sum),
+          sum: parseInt(docSnap.data().sum, 10) - sum,
         });
-      }
 
-      if (isRecieved == "Recieved") {
+        Reset();
+        return unsubscribe;
+      } else {
+        const unsubscribe = await addDoc(
+          collection(db, "users", auth.currentUser.uid, "transactions"),
+          {
+            type: "Income",
+            sum: sum,
+            date: new Date(),
+            isIncome: isIncome,
+          }
+        );
+
         const docRef = doc(
           db,
           "users",
@@ -74,12 +73,14 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
           "accounts",
           whatAcc
         );
+        const docSnap = await getDoc(docRef);
         await updateDoc(docRef, {
-          sum: increment(sum),
+          sum: parseInt(docSnap.data().sum, 10) + parseInt(sum, 10),
         });
+
+        Reset();
+        return unsubscribe;
       }
-      Reset();
-      return unsubscribe;
     } else {
       console.log("type is required");
     }
@@ -98,79 +99,121 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
           </Modal.Header>
 
           <Modal.Body justifyContent={"center"} alignItems="center">
+            {/* Income OR SPENT ? */}
             <Select
               minWidth="210"
-              accessibilityLabel="Choose Service"
-              placeholder="Transaction Category"
+              accessibilityLabel="isIncome"
+              placeholder="Income or Spent"
               placeholderTextColor={"lightgrey"}
               color="white"
-              mt="1"
               borderColor="white"
-              onValueChange={(value) => setTransactionType(value)}
-              fontSize="15"
-            >
-              <Select.Item label="Hobbies" value="Hobbies" />
-              <Select.Item label="Car" value="Car" />
-              <Select.Item label="Cigarettes" value="Cigarettes" />
-              <Select.Item label="Parking" value="Parking" />
-              <Select.Item label="Taxes" value="Taxes" />
-              <Select.Item label="Food" value="Food" />
-              <Select.Item label="Drinks" value="Drinks" />
-            </Select>
-
-            <HStack mt={4} alignItems="center">
-              <Input
-                borderColor="white"
-                _focus={{ borderColor: "white" }}
-                color="white"
-                width="110"
-                ml="2"
-                fontSize="15"
-                onChangeText={(sum) => setSum(sum)}
-                placeholder="Sum"
-                placeholderTextColor="lightgrey"
-              />
-              <Text color="white" ml="-9">
-                RON
-              </Text>
-            </HStack>
-
-            <Select
-              minWidth="200"
-              accessibilityLabel="isRecieved"
-              placeholder="Spent or Recieved?"
-              placeholderTextColor={"lightgrey"}
-              color="white"
-              mt="4"
-              borderColor="white"
-              onValueChange={(value) => setIsRecieved(value)}
+              onValueChange={(value) => setIsIncome(value)}
               fontSize="15"
             >
               <Select.Item label="Spent" value="Spent" />
-              <Select.Item label="Recieved" value="Recieved" />
+              <Select.Item label="Income" value="Income" />
             </Select>
 
-            <Select
-              minWidth="200"
-              accessibilityLabel="Account"
-              placeholder="Account"
-              placeholderTextColor={"lightgrey"}
-              color="white"
-              mt="4"
-              borderColor="white"
-              onValueChange={(value) => setWhatAcc(value)}
-              fontSize="15"
-            >
-              {accountsData?.accountsList?.map((account, index) => {
-                return (
-                  <Select.Item
-                    label={account.name}
-                    value={account.name}
-                    key={index}
-                  />
-                );
-              })}
-            </Select>
+            {isIncome == "Spent" ? (
+              <>
+                {/* TYPE */}
+                <Select
+                  minWidth="210"
+                  accessibilityLabel="Choose Service"
+                  placeholder="Transaction Category"
+                  placeholderTextColor={"lightgrey"}
+                  color="white"
+                  mt="4"
+                  borderColor="white"
+                  onValueChange={(value) => setTransactionType(value)}
+                  fontSize="15"
+                >
+                  <Select.Item label="Hobbies" value="Hobbies" />
+                  <Select.Item label="Car" value="Car" />
+                  <Select.Item label="Cigarettes" value="Cigarettes" />
+                  <Select.Item label="Parking" value="Parking" />
+                  <Select.Item label="Taxes" value="Taxes" />
+                  <Select.Item label="Food" value="Food" />
+                  <Select.Item label="Drinks" value="Drinks" />
+                </Select>
+
+                {/* SUM */}
+
+                <Input
+                  borderColor="white"
+                  _focus={{ borderColor: "white" }}
+                  color="white"
+                  width="210"
+                  fontSize="15"
+                  onChangeText={(sum) => setSum(sum)}
+                  placeholder="Sum"
+                  placeholderTextColor="lightgrey"
+                  alignItems="center"
+                  mt="4"
+                />
+
+                {/* Which Account? */}
+                <Select
+                  minWidth="210"
+                  accessibilityLabel="Account"
+                  placeholder="Account"
+                  placeholderTextColor={"lightgrey"}
+                  color="white"
+                  mt="4"
+                  borderColor="white"
+                  onValueChange={(value) => setWhatAcc(value)}
+                  fontSize="15"
+                >
+                  {accountsData?.accountsList?.map((account, index) => {
+                    return (
+                      <Select.Item
+                        label={account.name}
+                        value={account.name}
+                        key={index}
+                      />
+                    );
+                  })}
+                </Select>
+              </>
+            ) : (
+              <>
+                {/* Which Account? */}
+                <Select
+                  minWidth="210"
+                  accessibilityLabel="Account"
+                  placeholder="Account"
+                  placeholderTextColor={"lightgrey"}
+                  color="white"
+                  mt="4"
+                  borderColor="white"
+                  onValueChange={(value) => setWhatAcc(value)}
+                  fontSize="15"
+                >
+                  {accountsData?.accountsList?.map((account, index) => {
+                    return (
+                      <Select.Item
+                        label={account.name}
+                        value={account.name}
+                        key={index}
+                      />
+                    );
+                  })}
+                </Select>
+
+                {/* SUM */}
+                <Input
+                  mt="4"
+                  borderColor="white"
+                  _focus={{ borderColor: "white" }}
+                  color="white"
+                  width="210"
+                  fontSize="15"
+                  onChangeText={(sum) => setSum(sum)}
+                  placeholder="Sum"
+                  placeholderTextColor="lightgrey"
+                />
+              </>
+            )}
           </Modal.Body>
 
           <Modal.Footer backgroundColor="primary1.500">
