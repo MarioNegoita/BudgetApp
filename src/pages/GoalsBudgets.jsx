@@ -4,7 +4,7 @@ import React from "react";
 export const GoalsBudgetsPage = () => {
   return (
     <View>
-      <Text>Home2Page</Text>
+      <Text>Goals & Budgets</Text>
     </View>
   );
 };
