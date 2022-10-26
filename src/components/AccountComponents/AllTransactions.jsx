@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Center, HStack, Icon, Text } from "native-base";
+import { Box, Text } from "native-base";
 import Transaction from "./Transaction";
 import { TouchableOpacity } from "react-native";
 import {
@@ -9,6 +9,8 @@ import {
   auth,
   orderBy,
   onSnapshot,
+  deleteDoc,
+  doc,
 } from "../../../config/firebase-key-config";
 
 export const AllTransactions = () => {
@@ -27,12 +29,20 @@ export const AllTransactions = () => {
           sum: doc.data().sum,
           date: doc.data().date,
           isIncome: doc.data().isIncome,
+          id: doc.data().id,
         }))
       );
     });
 
     return () => unsubscribe();
   }, []);
+
+  const removeTransaction = async (item) => {
+    let filteredArr = transactions.filter((el) => el.id !== item.id);
+    setTransactions(filteredArr);
+
+    deleteDoc(doc(db, "users", auth.currentUser.uid, "transactions", item.id));
+  };
 
   return (
     <Box
@@ -51,6 +61,7 @@ export const AllTransactions = () => {
             type={transaction.type}
             sum={transaction.sum}
             isIncome={transaction.isIncome}
+            remove={() => removeTransaction(transaction)}
           />
         );
       })}

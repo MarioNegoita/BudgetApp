@@ -3,7 +3,7 @@ import { Modal, Input, Button, Text, Select } from "native-base";
 import { TouchableWithoutFeedback } from "react-native";
 import { Keyboard } from "react-native";
 import {
-  addDoc,
+  setDoc,
   doc,
   updateDoc,
   db,
@@ -12,12 +12,14 @@ import {
   getDoc,
 } from "../../../config/firebase-key-config";
 import { useGlobal } from "../../../state";
+import uuid from "react-native-uuid";
 
 export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
   const [transactionType, setTransactionType] = useState("");
   const [sum, setSum] = useState("");
   const [isIncome, setIsIncome] = useState("");
   const [whatAcc, setWhatAcc] = useState("");
+  const [id, setId] = useState(uuid.v4());
   const [{ accountsData }] = useGlobal();
 
   const Reset = () => {
@@ -26,18 +28,20 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
     setWhatAcc("");
     setIsIncome("");
     close();
+    setId(uuid.v4());
   };
 
   async function handleOnAdd() {
     if (sum && whatAcc && isIncome) {
       if (isIncome == "Spent") {
-        const unsubscribe = await addDoc(
-          collection(db, "users", auth.currentUser.uid, "transactions"),
+        const unsubscribe = await setDoc(
+          doc(db, "users", auth.currentUser.uid, "transactions", id),
           {
             type: transactionType,
             sum: sum,
             date: new Date(),
             isIncome: isIncome,
+            id: id,
           }
         );
 
@@ -56,13 +60,14 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
         Reset();
         return unsubscribe;
       } else {
-        const unsubscribe = await addDoc(
-          collection(db, "users", auth.currentUser.uid, "transactions"),
+        const unsubscribe = await setDoc(
+          doc(db, "users", auth.currentUser.uid, "transactions", id),
           {
             type: "Income",
             sum: sum,
             date: new Date(),
             isIncome: isIncome,
+            id: id,
           }
         );
 

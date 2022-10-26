@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { HStack, Box, Icon, Text, Button } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 
-export const Transaction = ({ type, sum, isIncome }) => {
+export const Transaction = ({ type, sum, isIncome, remove }) => {
   const [shown, setShown] = useState("details");
 
   const icon = {
@@ -16,6 +16,10 @@ export const Transaction = ({ type, sum, isIncome }) => {
     Drinks: "cafe",
     Income: "md-trending-up-sharp",
   };
+
+  useEffect(() => {
+    setShown("details");
+  }, [remove]);
 
   if (shown == "details") {
     return (
@@ -114,11 +118,7 @@ export const Transaction = ({ type, sum, isIncome }) => {
             />
           </Box>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setShown("details");
-          }}
-        >
+        <TouchableOpacity onPress={() => remove()}>
           <Box backgroundColor="red.600" padding="2" borderRadius="lg" ml="2">
             <Icon size="6" color="white" as={<Ionicons name={"trash"} />} />
           </Box>
