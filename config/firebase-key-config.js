@@ -12,6 +12,7 @@ import {
   onSnapshot,
   orderBy,
   updateDoc,
+  increment,
 } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
@@ -53,4 +54,5 @@ export {
   onSnapshot,
   orderBy,
   updateDoc,
+  increment,
 };

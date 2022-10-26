@@ -1,49 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { Center, Button, Box } from "native-base";
-// import {
-//   signOut,
-//   auth,
-//   onSnapshot,
-//   query,
-//   db,
-//   collection,
-//   orderBy,
-// } from "../../config/firebase-key-config";
+import { TouchableOpacity } from "react-native";
+import { Icon, Center, Button, Box, ScrollView, Fab } from "native-base";
 
-import { Balance } from "../components/AccountComponents/index";
+import {
+  Balance,
+  AllTransactions,
+} from "../components/AccountComponents/index";
+import { Ionicons } from "@expo/vector-icons";
+import ModalAddTransaction from "../components/AccountComponents/ModalAddTransaction";
 
 export const AccountPage = ({ navigation }) => {
-  // const logOut = () => {
-  //   signOut(auth).then(() => {
-  //     navigation.reset({
-  //       routes: [{ name: "Login" }],
-  //     });
-  //   });
-  // };
+  const [showModal, setShowModal] = useState(false);
 
-  // const [accounts, setAccounts] = useState();
-  // useEffect(() => {
-  //   const q = query(
-  //     collection(db, `users/${auth.currentUser.uid}/accounts`),
-  //     orderBy("sum", "desc")
-  //   );
-
-  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
-  //     setAccounts(
-  //       querySnapshot.docs.map((doc) => ({
-  //         sum: doc.data().sum,
-  //         name: doc.data().name,
-  //       }))
-  //     );
-  //   });
-
-  //   return () => unsubscribe();
-  // }, []);
+  const onCloseModal = () => {
+    setShowModal(false);
+  };
 
   return (
-    <Box flex={1} backgroundColor="primary1.500">
-      <Balance name="cash" sum="5000" />
-    </Box>
+    <ScrollView flex={1} backgroundColor="primary1.500">
+      <ModalAddTransaction showModal={showModal} close={onCloseModal} />
+      <Balance />
+      <AllTransactions />
+      <Fab
+        backgroundColor="primary4.500"
+        onPress={() => {
+          setShowModal(true);
+        }}
+        _pressed={{ backgroundColor: "primary3.500" }}
+        icon={<Icon size="lg" color="black" as={<Ionicons name="card" />} />}
+      />
+    </ScrollView>
   );
 };
 

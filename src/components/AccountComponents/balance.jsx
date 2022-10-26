@@ -14,14 +14,26 @@ import {
   orderBy,
 } from "../../../config/firebase-key-config";
 import AccountBox from "./accountBox";
+import { useGlobal } from "../../../state";
 
-export const Balance = ({ name, sum }) => {
+export const Balance = () => {
   const [showModal, setShowModal] = useState(false);
+  const [{ accountsData }, dispatch] = useGlobal();
+  const [accounts, setAccounts] = useState();
+
+  useEffect(() => {
+    if (accounts) {
+      dispatch({
+        type: "ACCOUNTS_INFO",
+        accountsList: accounts,
+      });
+    }
+  }, [accounts]);
+
   const closeModal = () => {
     setShowModal(false);
   };
 
-  const [accounts, setAccounts] = useState();
   useEffect(() => {
     const q = query(
       collection(db, `users/${auth.currentUser.uid}/accounts`),
@@ -51,7 +63,7 @@ export const Balance = ({ name, sum }) => {
         borderBottomColor="white"
         borderBottomWidth="1"
       >
-        <Text fontSize="22" color="white">
+        <Text fontSize="22" color="white" ml="1">
           Balance
         </Text>
 
@@ -61,11 +73,12 @@ export const Balance = ({ name, sum }) => {
           flexWrap="wrap"
           my="3"
         >
-          {accounts.map((account, index) => {
+          {accounts?.map((account, index) => {
             return (
               <AccountBox key={index} name={account.name} sum={account.sum} />
             );
           })}
+
           <TouchableOpacity onPress={() => setShowModal(true)}>
             <HStack
               borderColor="primary3.500"

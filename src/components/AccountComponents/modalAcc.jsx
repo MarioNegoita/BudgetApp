@@ -23,7 +23,7 @@ const ModalAcc = ({ showModal, close = () => {} }) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Modal isOpen={showModal}>
         <Modal.Content maxWidth="400px" backgroundColor="primary2.500">
-          <Modal.CloseButton onPress={close} />
+          <Modal.CloseButton onPress={close} backgroundColor="white" />
 
           <Modal.Header backgroundColor="primary1.500">
             <Text fontSize="15" color="white">
@@ -69,13 +69,21 @@ const ModalAcc = ({ showModal, close = () => {} }) => {
 
           <Modal.Footer backgroundColor="primary1.500">
             <Button.Group justifyContent={"space-between"}>
-              <Button backgroundColor="red.500" onPress={close}>
+              <Button
+                backgroundColor="red.500"
+                onPress={close}
+                _pressed={{ backgroundColor: "grey" }}
+              >
                 <Text fontSize="15" color="black">
                   Cancel
                 </Text>
               </Button>
 
-              <Button backgroundColor="primary3.500" onPress={handleSaveAcc}>
+              <Button
+                backgroundColor="primary3.500"
+                onPress={handleSaveAcc}
+                _pressed={{ backgroundColor: "grey" }}
+              >
                 <Text fontSize="15" color="black">
                   Save
                 </Text>
