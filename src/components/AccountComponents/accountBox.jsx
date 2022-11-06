@@ -1,22 +1,24 @@
 import React from "react";
-import { Box, Text } from "native-base";
+import { Box, HStack, Text } from "native-base";
 
 const AccountBox = ({ name, sum }) => {
   return (
     <Box
-      backgroundColor="orange.600"
       borderRadius="lg"
-      padding={2}
-      minWidth={"45%"}
       mt="3"
+      width="100%"
+      padding="2"
+      backgroundColor="orange.300"
     >
-      <Text fontSize="15" color="white">
-        {name}
-      </Text>
+      <HStack alignItems="center" justifyContent="space-between">
+        <Text fontSize="18" color="primary3.500" ml="2">
+          {name}
+        </Text>
 
-      <Text fontSize="15" color="white">
-        {sum} ron
-      </Text>
+        <Text fontSize="17" color="primary3.500" mr="2">
+          {sum} ron
+        </Text>
+      </HStack>
     </Box>
   );
 };

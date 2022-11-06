@@ -9,9 +9,13 @@ export const IndexTabs = () => {
       screenOptions={{
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          backgroundColor: "#749F82",
+          backgroundColor: "#f7f7f7",
         },
-        tabBarLabelStyle: { fontSize: 15, fontWeight: "bold" },
+        tabBarLabelStyle: {
+          fontSize: 15,
+          fontWeight: "bold",
+          color: "#07353b",
+        },
       }}
     >
       <Tab.Screen name="Account" component={AccountPage} />

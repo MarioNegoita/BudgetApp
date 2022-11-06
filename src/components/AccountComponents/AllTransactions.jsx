@@ -45,13 +45,8 @@ export const AllTransactions = () => {
   };
 
   return (
-    <Box
-      mt={2}
-      borderBottomColor="white"
-      borderBottomWidth={"1"}
-      paddingBottom={5}
-    >
-      <Text marginLeft="2" fontSize="22" color="white">
+    <Box paddingBottom={5} backgroundColor="primary5.500">
+      <Text marginLeft="2" fontSize="22" color="primary3.500">
         Recent Transactions
       </Text>
       {transactions?.slice(0, 5).map((transaction, index) => {
@@ -67,14 +62,16 @@ export const AllTransactions = () => {
       })}
       <TouchableOpacity>
         <Box
-          backgroundColor="primary4.500"
+          backgroundColor="orange.400"
           marginTop="2"
           alignItems="center"
           justifyContent="center"
-          borderRadius="lg"
+          borderRadius="md"
           mx="2"
         >
-          <Text>Show More...</Text>
+          <Text color="primary3.500" fontSize="15">
+            Show More...
+          </Text>
         </Box>
       </TouchableOpacity>
     </Box>
