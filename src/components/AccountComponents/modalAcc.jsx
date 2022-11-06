@@ -37,9 +37,9 @@ const ModalAcc = ({ showModal, close = () => {} }) => {
             </Text>
 
             <Input
-              padding={2}
-              borderWidth={2}
-              borderRadius={10}
+              padding="2"
+              borderWidth="3"
+              borderRadius="10"
               borderColor="black"
               _focus={{ borderColor: "white" }}
               color="primary3.500"
@@ -54,9 +54,9 @@ const ModalAcc = ({ showModal, close = () => {} }) => {
             </Text>
 
             <Input
-              padding={2}
-              borderWidth={2}
-              borderRadius={10}
+              padding="2"
+              borderWidth="3"
+              borderRadius="10"
               borderColor="black"
               _focus={{ borderColor: "white" }}
               fontSize="15"
