@@ -12,9 +12,11 @@ import {
   deleteDoc,
   doc,
 } from "../../../config/firebase-key-config";
+import { useNavigation } from "@react-navigation/native";
 
 export const AllTransactions = () => {
   const [transactions, setTransactions] = useState();
+  const navigation = useNavigation();
 
   useEffect(() => {
     const q = query(
@@ -60,7 +62,11 @@ export const AllTransactions = () => {
           />
         );
       })}
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("TransactionsPage", { transactions })
+        }
+      >
         <Box
           backgroundColor="orange.400"
           marginTop="2"

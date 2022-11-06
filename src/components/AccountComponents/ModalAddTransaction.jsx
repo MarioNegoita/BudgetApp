@@ -41,6 +41,7 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
             date: new Date(),
             isIncome: isIncome,
             id: id,
+            acc: whatAcc,
           }
         );
 
@@ -67,6 +68,7 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
             date: new Date(),
             isIncome: isIncome,
             id: id,
+            acc: whatAcc,
           }
         );
 
