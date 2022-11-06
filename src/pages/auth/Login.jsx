@@ -118,22 +118,22 @@ export const LoginPage = ({ navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <Center bg="primary1.500" h="100%" w="100%">
+      <Center bg="primary5.500" h="100%" w="100%">
         <Box safeArea w="full" px="16">
-          <Heading size="lg" fontWeight="600" color="white">
-            Welcome
+          <Heading size="xl" fontWeight="600" color="primary3.500">
+            Welcome,
           </Heading>
 
-          <Heading mt="1" size="xs" fontWeight="semibold" color="white">
+          <Heading mt="1" size="md" fontWeight="semibold" color="primary4.500">
             Sign in to continue!
           </Heading>
 
           <VStack space={4} mt="4">
             <Input
               padding={2}
-              borderWidth={2}
-              borderRadius={10}
+              borderBottomWidth="2"
               borderColor={`${isInvalidEmail ? "red.500" : "black"}`}
+              style={{ color: "black", fontSize: 15 }}
               _focus={
                 isInvalidEmail
                   ? {
@@ -141,16 +141,16 @@ export const LoginPage = ({ navigation }) => {
                       placeholderTextColor: "red.500",
                     }
                   : {
-                      borderColor: "white",
-                      placeholderTextColor: "white",
+                      borderColor: "primary4.500",
+                      placeholderTextColor: "primary4.500",
                     }
               }
               InputRightElement={
                 <Icon
-                  as={<Ionicons name="mail-outline" />}
+                  as={<Ionicons name="mail" />}
                   size={6}
                   mr="2"
-                  color={isInvalidEmail ? `red.500` : "white"}
+                  color={isInvalidEmail ? `red.500` : "primary4.500"}
                 />
               }
               variant="underlined"
@@ -166,31 +166,27 @@ export const LoginPage = ({ navigation }) => {
 
             <Input
               padding={2}
-              borderWidth={2}
-              borderRadius={10}
-              borderColor={`${isInvalidPassword ? "red.500" : "black"}`}
+              borderBottomWidth="2"
+              borderColor={`${isInvalidEmail ? "red.500" : "black"}`}
+              style={{ color: "black", fontSize: 15 }}
               _focus={
-                isInvalidPassword
+                isInvalidEmail
                   ? {
                       borderColor: "red.500",
                       placeholderTextColor: "red.500",
                     }
                   : {
-                      borderColor: "white",
-                      placeholderTextColor: "white",
+                      borderColor: "primary4.500",
+                      placeholderTextColor: "primary4.500",
                     }
               }
               type={passWordHidden ? "password" : "text"}
               InputRightElement={
                 <Icon
-                  as={
-                    <Ionicons
-                      name={passWordHidden ? "eye-off-outline" : "eye-outline"}
-                    />
-                  }
+                  as={<Ionicons name={passWordHidden ? "eye-off" : "eye"} />}
                   size={6}
                   mr="2"
-                  color={isInvalidPassword ? `red.500` : "white"}
+                  color={isInvalidEmail ? `red.500` : "primary4.500"}
                   onPress={() => setPasswordHidden(!passWordHidden)}
                 />
               }
@@ -209,7 +205,7 @@ export const LoginPage = ({ navigation }) => {
               _text={{
                 fontSize: "xs",
                 fontWeight: "500",
-                color: "white",
+                color: "primary2.500",
               }}
               onPress={() => {
                 navigation.navigate("ForgotPassword");
@@ -224,15 +220,15 @@ export const LoginPage = ({ navigation }) => {
               title="Sign in"
               rounded="lg"
               medium
-              bg="primary3.500"
-              _pressed={{ bg: "primary3.600" }}
+              bg="primary1.500"
+              _pressed={{ bg: "primary2.500" }}
               onPress={onSubmit}
               disabled={isLoading}
               isLoading={isLoading}
               //the size didnt match so i had to do this..
               _spinner={{ paddingY: "0.45" }}
             >
-              <Text fontWeight="semibold" color="black">
+              <Text fontWeight="semibold" color="primary3.500" fontSize="15">
                 Sign in
               </Text>
             </Button>
@@ -244,7 +240,7 @@ export const LoginPage = ({ navigation }) => {
 
               <Link
                 _text={{
-                  color: "white",
+                  color: "primary2.500",
                   fontWeight: "medium",
                   fontSize: "sm",
                 }}

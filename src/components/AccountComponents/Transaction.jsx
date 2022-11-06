@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { HStack, Box, Icon, Text, Button } from "native-base";
+import React, { useState, useEffect } from "react";
+import { HStack, Box, Icon, Text } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 
-export const Transaction = ({ type, sum, isIncome }) => {
+export const Transaction = ({ type, sum, isIncome, remove }) => {
   const [shown, setShown] = useState("details");
 
   const icon = {
@@ -17,33 +17,31 @@ export const Transaction = ({ type, sum, isIncome }) => {
     Income: "md-trending-up-sharp",
   };
 
+  useEffect(() => {
+    setShown("details");
+  }, [remove]);
+
   if (shown == "details") {
     return (
       <TouchableOpacity onPress={() => setShown("buttons")}>
         <HStack
-          backgroundColor="muted.700"
+          backgroundColor="primary5.500"
           alignItems="center"
           padding="2"
           marginX="2"
-          borderRadius="lg"
           justifyContent="space-between"
-          borderBottomColor="muted.500"
+          borderBottomColor="primary1.500"
           borderBottomWidth="2"
+          mb="1"
         >
           <HStack alignItems="center">
-            <Box
-              backgroundColor="orange.600"
-              ml="1"
-              padding="2"
-              borderRadius="lg"
-            >
-              <Icon
-                size="6"
-                color="white"
-                as={<Ionicons name={icon[type]} />}
-              />
-            </Box>
-            <Text fontSize="18" color="white" ml="2">
+            <Icon
+              size="8"
+              color="primary4.500"
+              as={<Ionicons name={icon[type]} />}
+            />
+
+            <Text fontSize="18" color="primary3.500" ml="2">
               {type}
             </Text>
           </HStack>
@@ -52,7 +50,7 @@ export const Transaction = ({ type, sum, isIncome }) => {
             <Text
               fontSize="18"
               fontWeight="bold"
-              color="danger.500"
+              color="danger.400"
               marginRight="2"
             >
               -{sum} Ron
@@ -61,7 +59,7 @@ export const Transaction = ({ type, sum, isIncome }) => {
             <Text
               fontSize="18"
               fontWeight="bold"
-              color="success.500"
+              color="green.500"
               marginRight="2"
             >
               +{sum} Ron
@@ -73,55 +71,35 @@ export const Transaction = ({ type, sum, isIncome }) => {
   } else
     return (
       <HStack
-        backgroundColor="muted.700"
+        backgroundColor="primary5.500"
         alignItems="center"
         padding="2"
         marginX="2"
-        borderRadius="lg"
         justifyContent="space-between"
-        borderBottomColor="muted.500"
+        borderBottomColor="primary1.500"
         borderBottomWidth="2"
+        mb="1"
       >
         <TouchableOpacity
           onPress={() => {
             setShown("details");
           }}
         >
-          <Box
-            backgroundColor="primary2.500"
-            padding="2"
-            borderRadius="lg"
-            ml="2"
-          >
-            <Icon size="6" color="white" as={<Ionicons name={"backspace"} />} />
-          </Box>
+          <Icon size="8" color="black" as={<Ionicons name={"backspace"} />} />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             setShown("details");
           }}
         >
-          <Box
-            backgroundColor="orange.600"
-            padding="2"
-            borderRadius="lg"
-            ml="2"
-          >
-            <Icon
-              size="6"
-              color="white"
-              as={<Ionicons name={"information-circle"} />}
-            />
-          </Box>
+          <Icon
+            size="8"
+            color="primary4.500"
+            as={<Ionicons name={"information-circle"} />}
+          />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setShown("details");
-          }}
-        >
-          <Box backgroundColor="red.600" padding="2" borderRadius="lg" ml="2">
-            <Icon size="6" color="white" as={<Ionicons name={"trash"} />} />
-          </Box>
+        <TouchableOpacity onPress={() => remove()}>
+          <Icon size="8" color="danger.400" as={<Ionicons name={"trash"} />} />
         </TouchableOpacity>
       </HStack>
     );

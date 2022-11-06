@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, ImageBackground } from "react-native";
 import { Icon, Center, Button, Box, ScrollView, Fab } from "native-base";
 
 import {
@@ -17,17 +17,19 @@ export const AccountPage = ({ navigation }) => {
   };
 
   return (
-    <ScrollView flex={1} backgroundColor="primary1.500">
+    <ScrollView flex={1} backgroundColor="white">
       <ModalAddTransaction showModal={showModal} close={onCloseModal} />
       <Balance />
       <AllTransactions />
       <Fab
-        backgroundColor="primary4.500"
+        backgroundColor="white"
         onPress={() => {
           setShowModal(true);
         }}
-        _pressed={{ backgroundColor: "primary3.500" }}
-        icon={<Icon size="lg" color="black" as={<Ionicons name="card" />} />}
+        _pressed={{ backgroundColor: "primary2.500" }}
+        icon={
+          <Icon size="lg" color="primary1.500" as={<Ionicons name="card" />} />
+        }
       />
     </ScrollView>
   );

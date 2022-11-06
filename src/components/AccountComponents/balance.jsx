@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, HStack, Icon, Text } from "native-base";
 import { TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModalAcc from "./modalAcc";
 import {
@@ -55,53 +55,39 @@ export const Balance = () => {
     <>
       <ModalAcc showModal={showModal} close={closeModal} />
 
-      <Box
-        width="100%"
-        backgroundColor="primary1.500"
-        padding="2"
-        borderBottomColor="white"
-        borderBottomWidth="1"
-      >
-        <Text fontSize="22" color="white" ml="1">
-          Balance
-        </Text>
+      <Box width="100%" backgroundColor="primary5.500" padding="2" my="5">
+        <HStack alignItems="center" justifyContent="space-between">
+          <HStack>
+            <Text fontSize="24" color="primary3.500" ml="1">
+              Balance
+            </Text>
+            <Icon
+              as={<FontAwesome5 name="piggy-bank" />}
+              size="8"
+              mr="2"
+              color="pink.300"
+              ml="2"
+            />
+          </HStack>
 
-        <HStack
-          alignItems={"center"}
-          justifyContent={"space-evenly"}
-          flexWrap="wrap"
-          my="3"
-        >
+          <TouchableOpacity onPress={() => setShowModal(true)}>
+            <Icon
+              as={<Ionicons name="add-circle" />}
+              size="8"
+              mr="2"
+              color="orange.400"
+              ml="2"
+            />
+          </TouchableOpacity>
+        </HStack>
+
+        <Box alignItems={"center"}>
           {accounts?.map((account, index) => {
             return (
               <AccountBox key={index} name={account.name} sum={account.sum} />
             );
           })}
-
-          <TouchableOpacity onPress={() => setShowModal(true)}>
-            <HStack
-              borderColor="primary3.500"
-              borderWidth="2"
-              borderRadius="lg"
-              paddingY="4"
-              paddingX="2"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Text fontSize="15" color="white" ml="2">
-                Add an account
-              </Text>
-
-              <Icon
-                as={<Ionicons name="add-circle" />}
-                size={6}
-                mr="2"
-                color="primary3.500"
-                ml="2"
-              />
-            </HStack>
-          </TouchableOpacity>
-        </HStack>
+        </Box>
       </Box>
     </>
   );

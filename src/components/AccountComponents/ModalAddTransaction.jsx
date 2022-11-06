@@ -3,21 +3,22 @@ import { Modal, Input, Button, Text, Select } from "native-base";
 import { TouchableWithoutFeedback } from "react-native";
 import { Keyboard } from "react-native";
 import {
-  addDoc,
+  setDoc,
   doc,
   updateDoc,
   db,
   auth,
-  collection,
   getDoc,
 } from "../../../config/firebase-key-config";
 import { useGlobal } from "../../../state";
+import uuid from "react-native-uuid";
 
 export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
   const [transactionType, setTransactionType] = useState("");
   const [sum, setSum] = useState("");
   const [isIncome, setIsIncome] = useState("");
   const [whatAcc, setWhatAcc] = useState("");
+  const [id, setId] = useState(uuid.v4());
   const [{ accountsData }] = useGlobal();
 
   const Reset = () => {
@@ -26,18 +27,20 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
     setWhatAcc("");
     setIsIncome("");
     close();
+    setId(uuid.v4());
   };
 
   async function handleOnAdd() {
     if (sum && whatAcc && isIncome) {
       if (isIncome == "Spent") {
-        const unsubscribe = await addDoc(
-          collection(db, "users", auth.currentUser.uid, "transactions"),
+        const unsubscribe = await setDoc(
+          doc(db, "users", auth.currentUser.uid, "transactions", id),
           {
             type: transactionType,
             sum: sum,
             date: new Date(),
             isIncome: isIncome,
+            id: id,
           }
         );
 
@@ -56,13 +59,14 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
         Reset();
         return unsubscribe;
       } else {
-        const unsubscribe = await addDoc(
-          collection(db, "users", auth.currentUser.uid, "transactions"),
+        const unsubscribe = await setDoc(
+          doc(db, "users", auth.currentUser.uid, "transactions", id),
           {
             type: "Income",
             sum: sum,
             date: new Date(),
             isIncome: isIncome,
+            id: id,
           }
         );
 
@@ -89,11 +93,11 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Modal isOpen={showModal}>
-        <Modal.Content maxWidth="400px" backgroundColor="primary2.500">
+        <Modal.Content maxWidth="400px" backgroundColor="primary5.500">
           <Modal.CloseButton onPress={close} backgroundColor="white" />
 
-          <Modal.Header backgroundColor="primary1.500">
-            <Text fontSize="15" color="white">
+          <Modal.Header backgroundColor="primary2.500">
+            <Text fontSize="15" color="primary3.500">
               Add a transaction
             </Text>
           </Modal.Header>
@@ -104,9 +108,10 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
               minWidth="210"
               accessibilityLabel="isIncome"
               placeholder="Income or Spent"
-              placeholderTextColor={"lightgrey"}
-              color="white"
-              borderColor="white"
+              placeholderTextColor="primary3.500"
+              color="primary1.500"
+              borderColor="primary2.500"
+              borderWidth="2"
               onValueChange={(value) => setIsIncome(value)}
               fontSize="15"
             >
@@ -121,10 +126,11 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
                   minWidth="210"
                   accessibilityLabel="Choose Service"
                   placeholder="Transaction Category"
-                  placeholderTextColor={"lightgrey"}
-                  color="white"
+                  placeholderTextColor="primary3.500"
+                  color="primary1.500"
                   mt="4"
-                  borderColor="white"
+                  borderColor="primary2.500"
+                  borderWidth="2"
                   onValueChange={(value) => setTransactionType(value)}
                   fontSize="15"
                 >
@@ -141,13 +147,14 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
 
                 <Input
                   borderColor="white"
-                  _focus={{ borderColor: "white" }}
-                  color="white"
+                  _focus={{ borderColor: "primary2.500" }}
+                  borderWidth="2"
+                  color="primary3.500"
                   width="210"
                   fontSize="15"
                   onChangeText={(sum) => setSum(sum)}
                   placeholder="Sum"
-                  placeholderTextColor="lightgrey"
+                  placeholderTextColor="primary3.500"
                   alignItems="center"
                   mt="4"
                 />
@@ -157,10 +164,11 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
                   minWidth="210"
                   accessibilityLabel="Account"
                   placeholder="Account"
-                  placeholderTextColor={"lightgrey"}
-                  color="white"
+                  placeholderTextColor={"primary3.500"}
+                  color="primary1.500"
                   mt="4"
-                  borderColor="white"
+                  borderColor="primary2.500"
+                  borderWidth="2"
                   onValueChange={(value) => setWhatAcc(value)}
                   fontSize="15"
                 >
@@ -182,10 +190,11 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
                   minWidth="210"
                   accessibilityLabel="Account"
                   placeholder="Account"
-                  placeholderTextColor={"lightgrey"}
-                  color="white"
+                  placeholderTextColor={"primary3.500"}
+                  color="primary1.500"
                   mt="4"
-                  borderColor="white"
+                  borderColor="primary2.500"
+                  borderWidth="2"
                   onValueChange={(value) => setWhatAcc(value)}
                   fontSize="15"
                 >
@@ -202,38 +211,40 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
 
                 {/* SUM */}
                 <Input
-                  mt="4"
                   borderColor="white"
-                  _focus={{ borderColor: "white" }}
-                  color="white"
+                  _focus={{ borderColor: "primary2.500" }}
+                  borderWidth="2"
+                  color="primary3.500"
                   width="210"
                   fontSize="15"
                   onChangeText={(sum) => setSum(sum)}
                   placeholder="Sum"
-                  placeholderTextColor="lightgrey"
+                  placeholderTextColor="primary3.500"
+                  alignItems="center"
+                  mt="4"
                 />
               </>
             )}
           </Modal.Body>
 
-          <Modal.Footer backgroundColor="primary1.500">
+          <Modal.Footer backgroundColor="primary2.500">
             <Button.Group justifyContent={"space-between"}>
               <Button
                 backgroundColor="red.500"
                 onPress={close}
                 _pressed={{ backgroundColor: "grey" }}
               >
-                <Text fontSize="15" color="black">
+                <Text fontSize="15" color="primary3.500">
                   Cancel
                 </Text>
               </Button>
 
               <Button
-                backgroundColor="primary3.500"
+                backgroundColor="primary1.500"
                 _pressed={{ backgroundColor: "grey" }}
                 onPress={handleOnAdd}
               >
-                <Text fontSize="15" color="black">
+                <Text fontSize="15" color="primary3.500">
                   Add
                 </Text>
               </Button>
