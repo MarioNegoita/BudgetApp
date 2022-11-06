@@ -73,7 +73,7 @@ export const Transaction = ({ type, sum, isIncome, remove }) => {
       <HStack
         backgroundColor="primary5.500"
         alignItems="center"
-        padding="2"
+        padding="3"
         marginX="2"
         justifyContent="space-between"
         borderBottomColor="primary1.500"

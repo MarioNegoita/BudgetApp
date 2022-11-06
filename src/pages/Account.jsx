@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { TouchableOpacity, ImageBackground } from "react-native";
-import { Icon, Center, Button, Box, ScrollView, Fab } from "native-base";
+import React, { useState } from "react";
+import { Icon, ScrollView, Fab } from "native-base";
 
 import {
   Balance,
@@ -22,13 +21,13 @@ export const AccountPage = ({ navigation }) => {
       <Balance />
       <AllTransactions />
       <Fab
-        backgroundColor="white"
+        backgroundColor="orange.400"
         onPress={() => {
           setShowModal(true);
         }}
-        _pressed={{ backgroundColor: "primary2.500" }}
+        _pressed={{ backgroundColor: "orange.300" }}
         icon={
-          <Icon size="lg" color="primary1.500" as={<Ionicons name="card" />} />
+          <Icon size="lg" color="primary3.500" as={<Ionicons name="card" />} />
         }
       />
     </ScrollView>

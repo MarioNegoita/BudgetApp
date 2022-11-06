@@ -94,9 +94,9 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Modal isOpen={showModal}>
         <Modal.Content maxWidth="400px" backgroundColor="primary5.500">
-          <Modal.CloseButton onPress={close} backgroundColor="white" />
+          <Modal.CloseButton onPress={close} />
 
-          <Modal.Header backgroundColor="primary2.500">
+          <Modal.Header backgroundColor="primary5.600">
             <Text fontSize="15" color="primary3.500">
               Add a transaction
             </Text>
@@ -108,12 +108,13 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
               minWidth="210"
               accessibilityLabel="isIncome"
               placeholder="Income or Spent"
-              placeholderTextColor="primary3.500"
-              color="primary1.500"
-              borderColor="primary2.500"
-              borderWidth="2"
+              placeholderTextColor="primary2.500"
+              color="primary3.500"
+              borderColor="black"
+              borderWidth="3"
               onValueChange={(value) => setIsIncome(value)}
               fontSize="15"
+              borderRadius="10"
             >
               <Select.Item label="Spent" value="Spent" />
               <Select.Item label="Income" value="Income" />
@@ -126,13 +127,14 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
                   minWidth="210"
                   accessibilityLabel="Choose Service"
                   placeholder="Transaction Category"
-                  placeholderTextColor="primary3.500"
-                  color="primary1.500"
+                  placeholderTextColor="primary2.500"
+                  color="primary3.500"
                   mt="4"
-                  borderColor="primary2.500"
-                  borderWidth="2"
+                  borderColor="black"
+                  borderWidth="3"
                   onValueChange={(value) => setTransactionType(value)}
                   fontSize="15"
+                  borderRadius="10"
                 >
                   <Select.Item label="Hobbies" value="Hobbies" />
                   <Select.Item label="Car" value="Car" />
@@ -146,17 +148,19 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
                 {/* SUM */}
 
                 <Input
-                  borderColor="white"
+                  borderColor="black"
                   _focus={{ borderColor: "primary2.500" }}
-                  borderWidth="2"
+                  borderWidth="3"
                   color="primary3.500"
                   width="210"
                   fontSize="15"
                   onChangeText={(sum) => setSum(sum)}
                   placeholder="Sum"
-                  placeholderTextColor="primary3.500"
+                  placeholderTextColor="primary2.500"
                   alignItems="center"
                   mt="4"
+                  keyboardType="decimal-pad"
+                  borderRadius="10"
                 />
 
                 {/* Which Account? */}
@@ -164,13 +168,14 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
                   minWidth="210"
                   accessibilityLabel="Account"
                   placeholder="Account"
-                  placeholderTextColor={"primary3.500"}
-                  color="primary1.500"
+                  placeholderTextColor={"primary2.500"}
+                  color="primary3.500"
                   mt="4"
-                  borderColor="primary2.500"
-                  borderWidth="2"
+                  borderColor="black"
+                  borderWidth="3"
                   onValueChange={(value) => setWhatAcc(value)}
                   fontSize="15"
+                  borderRadius="10"
                 >
                   {accountsData?.accountsList?.map((account, index) => {
                     return (
@@ -190,13 +195,14 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
                   minWidth="210"
                   accessibilityLabel="Account"
                   placeholder="Account"
-                  placeholderTextColor={"primary3.500"}
-                  color="primary1.500"
+                  placeholderTextColor="primary2.500"
+                  color="primary3.500"
                   mt="4"
-                  borderColor="primary2.500"
-                  borderWidth="2"
+                  borderColor="black"
+                  borderWidth="3"
                   onValueChange={(value) => setWhatAcc(value)}
                   fontSize="15"
+                  borderRadius="10"
                 >
                   {accountsData?.accountsList?.map((account, index) => {
                     return (
@@ -211,26 +217,28 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
 
                 {/* SUM */}
                 <Input
-                  borderColor="white"
+                  borderColor="black"
                   _focus={{ borderColor: "primary2.500" }}
-                  borderWidth="2"
+                  borderWidth="3"
                   color="primary3.500"
                   width="210"
                   fontSize="15"
                   onChangeText={(sum) => setSum(sum)}
                   placeholder="Sum"
-                  placeholderTextColor="primary3.500"
+                  placeholderTextColor="primary2.500"
                   alignItems="center"
                   mt="4"
+                  keyboardType="decimal-pad"
+                  borderRadius="10"
                 />
               </>
             )}
           </Modal.Body>
 
-          <Modal.Footer backgroundColor="primary2.500">
+          <Modal.Footer backgroundColor="primary5.600">
             <Button.Group justifyContent={"space-between"}>
               <Button
-                backgroundColor="red.500"
+                backgroundColor="red.400"
                 onPress={close}
                 _pressed={{ backgroundColor: "grey" }}
               >
@@ -240,7 +248,7 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
               </Button>
 
               <Button
-                backgroundColor="primary1.500"
+                backgroundColor="orange.300"
                 _pressed={{ backgroundColor: "grey" }}
                 onPress={handleOnAdd}
               >

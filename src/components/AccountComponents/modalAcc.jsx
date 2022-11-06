@@ -22,17 +22,17 @@ const ModalAcc = ({ showModal, close = () => {} }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Modal isOpen={showModal}>
-        <Modal.Content maxWidth="400px" backgroundColor="primary2.500">
-          <Modal.CloseButton onPress={close} backgroundColor="white" />
+        <Modal.Content maxWidth="400px" backgroundColor="primary5.500">
+          <Modal.CloseButton onPress={close} />
 
-          <Modal.Header backgroundColor="primary1.500">
-            <Text fontSize="15" color="white">
+          <Modal.Header backgroundColor="primary5.600">
+            <Text fontSize="15" color="primary3.500">
               Create a new account
             </Text>
           </Modal.Header>
 
           <Modal.Body>
-            <Text fontSize="15" color="white">
+            <Text fontSize="15" color="primary3.500">
               Account Name
             </Text>
 
@@ -42,14 +42,14 @@ const ModalAcc = ({ showModal, close = () => {} }) => {
               borderRadius={10}
               borderColor="black"
               _focus={{ borderColor: "white" }}
-              color="white"
+              color="primary3.500"
               fontSize="15"
               onChangeText={(value) => {
                 setName(value);
               }}
             />
 
-            <Text fontSize="15" color="white">
+            <Text fontSize="15" color="primary3.500">
               Initial Sum
             </Text>
 
@@ -60,17 +60,17 @@ const ModalAcc = ({ showModal, close = () => {} }) => {
               borderColor="black"
               _focus={{ borderColor: "white" }}
               fontSize="15"
-              color="white"
+              color="primary3.500"
               onChangeText={(value) => {
                 setSum(value);
               }}
             />
           </Modal.Body>
 
-          <Modal.Footer backgroundColor="primary1.500">
+          <Modal.Footer backgroundColor="primary5.600">
             <Button.Group justifyContent={"space-between"}>
               <Button
-                backgroundColor="red.500"
+                backgroundColor="red.400"
                 onPress={close}
                 _pressed={{ backgroundColor: "grey" }}
               >
@@ -80,11 +80,11 @@ const ModalAcc = ({ showModal, close = () => {} }) => {
               </Button>
 
               <Button
-                backgroundColor="primary3.500"
+                backgroundColor="orange.300"
                 onPress={handleSaveAcc}
                 _pressed={{ backgroundColor: "grey" }}
               >
-                <Text fontSize="15" color="black">
+                <Text fontSize="15" color="primary3.500">
                   Save
                 </Text>
               </Button>
