@@ -19,7 +19,7 @@ export const AccountPage = ({ navigation, route }) => {
   };
 
   return (
-    <ScrollView flex={1} backgroundColor="#3441cb">
+    <ScrollView flex={1} backgroundColor="#1d1d42">
       <ModalAddTransaction showModal={showModal} close={onCloseModal} />
       <Balance />
       <AllTransactions />

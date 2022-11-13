@@ -56,11 +56,12 @@ export const Balance = () => {
       <ModalAcc showModal={showModal} close={closeModal} />
 
       <Box
-        width="100%"
-        backgroundColor="#3441cb"
+        mx="2"
+        mt="5"
+        backgroundColor="#4e2ecf"
         paddingX="5"
         paddingY="5"
-        borderBottomRadius="xl"
+        borderRadius="35"
       >
         <HStack alignItems="center" justifyContent="space-between">
           <HStack>

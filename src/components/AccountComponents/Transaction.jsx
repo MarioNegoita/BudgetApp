@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { HStack, Box, Icon, Text, VStack } from "native-base";
+import { HStack, Box, Icon, Text, VStack, Center } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 
-export const Transaction = ({ type, date, sum, isIncome, remove, UITYPE }) => {
+export const Transaction = ({
+  type,
+  date,
+  sum,
+  isIncome,
+  remove,
+  UITYPE,
+  whatAcc,
+}) => {
   const [shown, setShown] = useState("details");
 
   const icon = {
@@ -41,7 +49,7 @@ export const Transaction = ({ type, date, sum, isIncome, remove, UITYPE }) => {
                 as={<Ionicons name={icon[type]} />}
               />
 
-              <VStack alignItems="center" width="100">
+              <VStack alignItems="center" justifyContent="center" width="100">
                 <Text fontSize="18" color="primary3.500" ml="2">
                   {type}
                 </Text>
@@ -111,50 +119,85 @@ export const Transaction = ({ type, date, sum, isIncome, remove, UITYPE }) => {
       );
   else
     return (
-      <HStack
-        backgroundColor="primary5.500"
-        alignItems="center"
-        padding="2"
-        marginX="2"
-        justifyContent="space-between"
-        borderBottomColor="primary1.500"
-        borderBottomWidth="2"
+      <TouchableOpacity
+        onPress={() => {
+          if (shown == "acc") {
+            setShown("details");
+          } else setShown("acc");
+        }}
       >
-        <HStack alignItems="center">
-          <Icon
-            size="8"
-            color="primary4.500"
-            as={<Ionicons name={icon[type]} />}
-          />
-
-          <VStack alignItems="center" width="100">
-            <Text fontSize="18" color="primary3.500" ml="2">
-              {type}
-            </Text>
-            <Text fontSize="9">{date}</Text>
-          </VStack>
-        </HStack>
-
-        {isIncome == "Spent" ? (
-          <Text
-            fontSize="18"
-            fontWeight="bold"
-            color="danger.400"
-            marginRight="2"
+        {shown == "details" && (
+          <HStack
+            backgroundColor="primary5.500"
+            alignItems="center"
+            padding="2"
+            marginX="2"
+            justifyContent="space-between"
+            borderBottomColor="primary1.500"
+            borderBottomWidth="2"
           >
-            -{sum} Ron
-          </Text>
-        ) : (
-          <Text
-            fontSize="18"
-            fontWeight="bold"
-            color="green.500"
-            marginRight="2"
-          >
-            +{sum} Ron
-          </Text>
+            <HStack alignItems="center">
+              <Icon
+                size="8"
+                color="primary4.500"
+                as={<Ionicons name={icon[type]} />}
+              />
+
+              <VStack alignItems="center" width="100">
+                <Text fontSize="18" color="primary3.500" ml="2">
+                  {type}
+                </Text>
+                <Text fontSize="9">{date}</Text>
+              </VStack>
+            </HStack>
+
+            <HStack>
+              {isIncome == "Spent" ? (
+                <Text
+                  fontSize="18"
+                  fontWeight="bold"
+                  color="danger.400"
+                  marginRight="2"
+                >
+                  -{sum} Ron
+                </Text>
+              ) : (
+                <Text
+                  fontSize="18"
+                  fontWeight="bold"
+                  color="green.500"
+                  marginRight="2"
+                >
+                  +{sum} Ron
+                </Text>
+              )}
+            </HStack>
+          </HStack>
         )}
-      </HStack>
+
+        {shown == "acc" && (
+          <HStack
+            backgroundColor="primary5.500"
+            marginX="2"
+            padding="2"
+            borderBottomColor="primary1.500"
+            borderBottomWidth="2"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Icon
+              size="8"
+              color="primary4.500"
+              as={<Ionicons name={icon[type]} />}
+            />
+            <Box my="2">
+              <Text fontSize="18" textAlign="center">
+                Transaction account: {whatAcc}
+              </Text>
+            </Box>
+          </HStack>
+        )}
+      </TouchableOpacity>
     );
 };
 

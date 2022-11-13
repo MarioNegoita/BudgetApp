@@ -51,12 +51,11 @@ export const AllTransactions = () => {
 
   return (
     <Box
-      paddingBottom={5}
+      paddingBottom="5"
       backgroundColor="primary5.500"
       borderRadius="35"
-      borderWidth="3"
       mt="4"
-      borderColor="#3441cb"
+      mx="2"
     >
       <Box alignItems="center">
         <Text

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
+  Center,
   HStack,
   Icon,
   ScrollView,
@@ -20,13 +21,18 @@ const TransactionsPage = ({ route, navigation }) => {
   const [todaySpendings, setTodaySpendings] = useState(0);
   const [thisMonthSpendings, setThisMonthSpendings] = useState(0);
 
-  console.log(transactions);
   useEffect(() => {
     let today = 0;
     const isToday = moment().format("DD-MMM");
     if (whatAcc)
       for (let i = 0; i <= transactions.length; i++) {
         if (
+          whatAcc == "All" &&
+          transactions[i]?.date == isToday &&
+          transactions[i].isIncome == "Spent"
+        )
+          today = today + Number(transactions[i].sum);
+        else if (
           transactions[i]?.whatAcc == whatAcc &&
           transactions[i].isIncome == "Spent" &&
           transactions[i].date == isToday
@@ -37,8 +43,8 @@ const TransactionsPage = ({ route, navigation }) => {
   }, [whatAcc]);
 
   return (
-    <ScrollView flex="1" backgroundColor="white">
-      <Box mt="5" mx="1" backgroundColor="#3441cb" borderRadius="35" shadow="9">
+    <ScrollView flex="1" backgroundColor="#1d1d42">
+      <Box mt="5" mx="1" backgroundColor="#4e2ecf" borderRadius="35" shadow="9">
         <Box
           justifyContent="center"
           alignItems="center"
@@ -79,6 +85,7 @@ const TransactionsPage = ({ route, navigation }) => {
                 />
               );
             })}
+            <Select.Item label={"show all..."} value={"All"} />
           </Select>
           <Box mr="4" borderBottomWidth="3" borderBottomColor="green.400">
             <Text fontSize="18" color="white">
@@ -88,66 +95,86 @@ const TransactionsPage = ({ route, navigation }) => {
         </HStack>
       </Box>
 
-      <HStack
-        mt="6"
-        borderColor="primary5.600"
-        backgroundColor="primary5.500"
-        borderWidth="2"
-        justifyContent="space-around"
-        alignItems="center"
-      >
-        <VStack justifyContent="center" alignItems="center" my="4">
-          <Text fontSize="16" color="black">
-            Spent Today:
+      {!whatAcc && (
+        <Center mt="4">
+          <Text color="white" fontSize="20" textAlign="center">
+            Choose an account to see recent transactions
           </Text>
-          <Box
-            backgroundColor="#3441cb"
-            justifyContent="center"
-            alignItems="center"
-            borderRadius="100"
-            width="82"
-            height="82"
-          >
-            <Text fontSize="20" color="white" textAlign="center">
-              {todaySpendings} ron
-            </Text>
-          </Box>
-        </VStack>
+        </Center>
+      )}
 
-        <VStack justifyContent="center" alignItems="center" my="4">
-          <Text fontSize="16" color="black">
-            Spent Today:
-          </Text>
-          <Box
-            backgroundColor="#3441cb"
-            justifyContent="center"
-            alignItems="center"
-            borderRadius="100"
-            width="82"
-            height="82"
-          >
-            <Text fontSize="20" color="white" textAlign="center">
-              {todaySpendings} ron
+      {whatAcc && (
+        <HStack
+          mt="6"
+          borderColor="primary5.500"
+          backgroundColor="#1d1d42"
+          borderTopWidth="2"
+          borderBottomWidth="2"
+          justifyContent="space-around"
+          alignItems="center"
+        >
+          <VStack justifyContent="center" alignItems="center" my="4">
+            <Text fontSize="16" color="white">
+              Spent Today:
             </Text>
-          </Box>
-        </VStack>
-      </HStack>
+            <Box
+              backgroundColor="#4e2ecf"
+              justifyContent="center"
+              alignItems="center"
+              borderRadius="100"
+              width="82"
+              height="82"
+            >
+              <Text fontSize="20" color="white" textAlign="center">
+                {todaySpendings} ron
+              </Text>
+            </Box>
+          </VStack>
 
-      <Box mt="6">
-        {transactions?.map((transaction, index) => {
-          if (transaction.whatAcc == whatAcc)
-            return (
-              <Transaction
-                key={index}
-                type={transaction.type}
-                date={transaction.date}
-                sum={transaction.sum}
-                isIncome={transaction.isIncome}
-                UITYPE="without details"
-              />
-            );
-        })}
-      </Box>
+          <VStack justifyContent="center" alignItems="center" my="4">
+            <Text fontSize="16" color="white">
+              Spent This Month:
+            </Text>
+            <Box
+              backgroundColor="#4e2ecf"
+              justifyContent="center"
+              alignItems="center"
+              borderRadius="100"
+              width="82"
+              height="82"
+            >
+              <Text fontSize="20" color="white" textAlign="center">
+                {todaySpendings} ron
+              </Text>
+            </Box>
+          </VStack>
+        </HStack>
+      )}
+
+      {whatAcc && (
+        <Box
+          mt="6"
+          borderRadius="35"
+          backgroundColor="primary5.500"
+          mx="2"
+          paddingY="5"
+        >
+          {transactions?.map((transaction, index) => {
+            if (transaction.whatAcc == whatAcc || whatAcc == "All")
+              return (
+                <Transaction
+                  key={index}
+                  type={transaction.type}
+                  date={transaction.date}
+                  sum={transaction.sum}
+                  isIncome={transaction.isIncome}
+                  whatAcc={transaction.whatAcc}
+                  UITYPE="without details"
+                />
+              );
+          })}
+        </Box>
+      )}
     </ScrollView>
   );
 };
