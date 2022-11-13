@@ -12,6 +12,8 @@ import {
 } from "../../../config/firebase-key-config";
 import { useGlobal } from "../../../state";
 import uuid from "react-native-uuid";
+import { serverTimestamp } from "firebase/firestore";
+import moment from "moment/moment";
 
 export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
   const [transactionType, setTransactionType] = useState("");
@@ -38,9 +40,11 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
           {
             type: transactionType,
             sum: sum,
-            date: new Date(),
+            date: moment().format("DD-MMM"),
             isIncome: isIncome,
             id: id,
+            acc: whatAcc,
+            time: new Date(),
           }
         );
 
@@ -64,9 +68,11 @@ export const ModalAddTransaction = ({ showModal, close = () => {} }) => {
           {
             type: "Income",
             sum: sum,
-            date: new Date(),
+            date: moment().format("DD-MMM"),
             isIncome: isIncome,
             id: id,
+            acc: whatAcc,
+            time: new Date(),
           }
         );
 

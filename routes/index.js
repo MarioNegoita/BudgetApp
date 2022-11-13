@@ -13,8 +13,8 @@ import {
   ForgotPasswordPage,
   RegisterPage,
 } from "../src/pages/auth/index";
-import { HomePage } from "../src/pages/index";
 import IndexTabs from "./indexTabs";
+import TransactionsPage from "../src/pages/TransactionsPage";
 
 const Stack = createStackNavigator();
 
@@ -36,6 +36,7 @@ const AppRouter = ({ page }) => {
         )}
         <Stack.Screen name="Register" component={RegisterPage} />
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordPage} />
+        <Stack.Screen name="TransactionsPage" component={TransactionsPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

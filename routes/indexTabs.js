@@ -9,12 +9,15 @@ export const IndexTabs = () => {
       screenOptions={{
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          backgroundColor: "#f7f7f7",
+          backgroundColor: "#1d1d42",
         },
         tabBarLabelStyle: {
           fontSize: 15,
           fontWeight: "bold",
-          color: "#07353b",
+          color: "white",
+        },
+        tabBarIndicatorStyle: {
+          backgroundColor: "white",
         },
       }}
     >

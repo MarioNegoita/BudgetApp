@@ -12,14 +12,16 @@ import {
   deleteDoc,
   doc,
 } from "../../../config/firebase-key-config";
+import { useNavigation } from "@react-navigation/native";
 
 export const AllTransactions = () => {
   const [transactions, setTransactions] = useState();
+  const navigation = useNavigation();
 
   useEffect(() => {
     const q = query(
       collection(db, `users/${auth.currentUser.uid}/transactions`),
-      orderBy("date", "desc")
+      orderBy("time", "desc")
     );
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -30,8 +32,11 @@ export const AllTransactions = () => {
           date: doc.data().date,
           isIncome: doc.data().isIncome,
           id: doc.data().id,
+          whatAcc: doc.data().acc,
+          time: doc.data().time,
         }))
       );
+      console.log(transactions);
     });
 
     return () => unsubscribe();
@@ -45,35 +50,56 @@ export const AllTransactions = () => {
   };
 
   return (
-    <Box paddingBottom={5} backgroundColor="primary5.500">
-      <Text marginLeft="2" fontSize="22" color="primary3.500">
-        Recent Transactions
-      </Text>
+    <Box
+      paddingBottom="5"
+      backgroundColor="primary5.500"
+      borderRadius="35"
+      mt="4"
+      mx="2"
+    >
+      <Box alignItems="center">
+        <Text
+          marginLeft="2"
+          fontSize="22"
+          color="primary3.500"
+          my="2"
+          textDecorationLine="underline"
+        >
+          Recent Transactions
+        </Text>
+      </Box>
       {transactions?.slice(0, 5).map((transaction, index) => {
         return (
           <Transaction
             key={index}
             type={transaction.type}
+            date={transaction.date}
             sum={transaction.sum}
             isIncome={transaction.isIncome}
             remove={() => removeTransaction(transaction)}
+            UITYPE="with details"
           />
         );
       })}
-      <TouchableOpacity>
-        <Box
-          backgroundColor="orange.400"
-          marginTop="2"
-          alignItems="center"
-          justifyContent="center"
-          borderRadius="md"
-          mx="2"
+      <Box alignItems="center" justifyContent="center">
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("TransactionsPage", { transactions })
+          }
         >
-          <Text color="primary3.500" fontSize="15">
-            Show More...
-          </Text>
-        </Box>
-      </TouchableOpacity>
+          <Box
+            backgroundColor="primary5.500"
+            marginTop="6"
+            borderRadius="xl"
+            width="100"
+            alignItems="center"
+          >
+            <Text color="oran.500" fontSize="15">
+              Show More...
+            </Text>
+          </Box>
+        </TouchableOpacity>
+      </Box>
     </Box>
   );
 };

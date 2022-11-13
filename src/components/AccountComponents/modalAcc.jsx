@@ -55,6 +55,7 @@ const ModalAcc = ({ showModal, close = () => {} }) => {
 
             <Input
               padding="2"
+              keyboardType="decimal-pad"
               borderWidth="3"
               borderRadius="10"
               borderColor="black"
