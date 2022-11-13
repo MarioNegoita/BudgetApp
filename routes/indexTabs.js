@@ -21,7 +21,7 @@ export const IndexTabs = () => {
         },
       }}
     >
-      <Tab.Screen name="Account" component={AccountPage} />
+      <Tab.Screen name="Balance" component={AccountPage} />
       <Tab.Screen name="Goals & Budgets" component={GoalsBudgetsPage} />
     </Tab.Navigator>
   );

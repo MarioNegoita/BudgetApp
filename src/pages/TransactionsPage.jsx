@@ -23,7 +23,10 @@ const TransactionsPage = ({ route, navigation }) => {
 
   useEffect(() => {
     let today = 0;
+    let month = 0;
     const isToday = moment().format("DD-MMM");
+    const isThisMonth = moment().format("MMM");
+    console.log(isThisMonth);
     if (whatAcc)
       for (let i = 0; i <= transactions.length; i++) {
         if (
@@ -39,6 +42,24 @@ const TransactionsPage = ({ route, navigation }) => {
         )
           today = today + Number(transactions[i].sum);
       }
+
+    if (whatAcc)
+      for (let i = 0; i <= transactions.length; i++) {
+        if (
+          whatAcc == "All" &&
+          transactions[i]?.date.includes(isThisMonth) &&
+          transactions[i].isIncome == "Spent"
+        )
+          month = today + Number(transactions[i].sum);
+        else if (
+          transactions[i]?.whatAcc == whatAcc &&
+          transactions[i].isIncome == "Spent" &&
+          transactions[i]?.date.includes(isThisMonth)
+        )
+          month = month + Number(transactions[i].sum);
+      }
+
+    setThisMonthSpendings(month);
     setTodaySpendings(today);
   }, [whatAcc]);
 
@@ -144,7 +165,7 @@ const TransactionsPage = ({ route, navigation }) => {
               height="82"
             >
               <Text fontSize="20" color="white" textAlign="center">
-                {todaySpendings} ron
+                {thisMonthSpendings} ron
               </Text>
             </Box>
           </VStack>
