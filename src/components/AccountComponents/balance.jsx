@@ -55,10 +55,16 @@ export const Balance = () => {
     <>
       <ModalAcc showModal={showModal} close={closeModal} />
 
-      <Box width="100%" backgroundColor="primary5.500" padding="2" my="5">
+      <Box
+        width="100%"
+        backgroundColor="#3441cb"
+        paddingX="5"
+        paddingY="5"
+        borderBottomRadius="xl"
+      >
         <HStack alignItems="center" justifyContent="space-between">
           <HStack>
-            <Text fontSize="24" color="primary3.500" ml="1">
+            <Text fontSize="24" color="white" ml="1">
               Balance
             </Text>
             <Icon
