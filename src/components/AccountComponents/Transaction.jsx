@@ -45,7 +45,7 @@ export const Transaction = ({
             <HStack alignItems="center">
               <Icon
                 size="8"
-                color="primary4.500"
+                color="#4e2ecf"
                 as={<Ionicons name={icon[type]} />}
               />
 
@@ -139,7 +139,7 @@ export const Transaction = ({
             <HStack alignItems="center">
               <Icon
                 size="8"
-                color="primary4.500"
+                color="#4e2ecf"
                 as={<Ionicons name={icon[type]} />}
               />
 
@@ -183,14 +183,14 @@ export const Transaction = ({
             borderBottomColor="primary1.500"
             borderBottomWidth="2"
             alignItems="center"
-            justifyContent="space-between"
+            // justifyContent="space-between"
           >
             <Icon
               size="8"
-              color="primary4.500"
+              color="#4e2ecf"
               as={<Ionicons name={icon[type]} />}
             />
-            <Box my="2">
+            <Box my="2" justifyContent="center" flexGrow="1">
               <Text fontSize="18" textAlign="center">
                 Transaction account: {whatAcc}
               </Text>

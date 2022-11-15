@@ -14,11 +14,13 @@ import {
 } from "../../../config/firebase-key-config";
 import AccountBox from "./accountBox";
 import { useGlobal } from "../../../state";
+import { useNavigation } from "@react-navigation/native";
 
 export const Balance = () => {
   const [showModal, setShowModal] = useState(false);
   const [{ accountsData }, dispatch] = useGlobal();
   const [accounts, setAccounts] = useState();
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (accounts) {
@@ -68,24 +70,29 @@ export const Balance = () => {
             <Text fontSize="24" color="white" ml="1">
               Balance
             </Text>
-            <Icon
-              as={<FontAwesome5 name="piggy-bank" />}
-              size="8"
-              mr="2"
-              color="pink.300"
-              ml="2"
-            />
           </HStack>
-
-          <TouchableOpacity onPress={() => setShowModal(true)}>
-            <Icon
-              as={<Ionicons name="add-circle" />}
-              size="8"
-              mr="2"
-              color="orange.400"
-              ml="2"
-            />
-          </TouchableOpacity>
+          <HStack>
+            <TouchableOpacity onPress={() => setShowModal(true)}>
+              <Icon
+                as={<Ionicons name="add-circle" />}
+                size="8"
+                mr="2"
+                color="orange.400"
+                ml="2"
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ManageAccounts")}
+            >
+              <Icon
+                as={<Ionicons name="information-circle" />}
+                size="8"
+                mr="2"
+                color="white"
+                ml="2"
+              />
+            </TouchableOpacity>
+          </HStack>
         </HStack>
 
         <Box alignItems={"center"}>

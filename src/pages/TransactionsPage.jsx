@@ -9,7 +9,6 @@ import {
   Text,
   VStack,
 } from "native-base";
-import { FontAwesome } from "@expo/vector-icons";
 import { useGlobal } from "../../state";
 import Transaction from "../components/AccountComponents/Transaction";
 import moment from "moment/moment";
@@ -109,9 +108,14 @@ const TransactionsPage = ({ route, navigation }) => {
             <Select.Item label={"show all..."} value={"All"} />
           </Select>
           <Box mr="4" borderBottomWidth="3" borderBottomColor="green.400">
-            <Text fontSize="18" color="white">
-              1500
-            </Text>
+            {accountsData?.accountsList?.map((account, index) => {
+              if (account.name == whatAcc)
+                return (
+                  <Text key={index} fontSize="18" color="white">
+                    {account.sum}
+                  </Text>
+                );
+            })}
           </Box>
         </HStack>
       </Box>

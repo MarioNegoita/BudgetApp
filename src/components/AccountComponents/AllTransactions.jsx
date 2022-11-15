@@ -36,7 +36,6 @@ export const AllTransactions = () => {
           time: doc.data().time,
         }))
       );
-      console.log(transactions);
     });
 
     return () => unsubscribe();

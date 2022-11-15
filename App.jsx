@@ -32,7 +32,7 @@ export const App = () => {
   return (
     <NativeBaseProvider theme={theme}>
       <StateProvider initialState={initialState} reducer={AppReducer}>
-        <StatusBar backgroundColor="#425F57" />
+        <StatusBar backgroundColor="#1d1d42" />
         {isLoggedIn ? <Navigator page={isLoggedIn} /> : <Text>Loading...</Text>}
       </StateProvider>
     </NativeBaseProvider>
